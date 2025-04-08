@@ -15,9 +15,7 @@ function extractUniquePartIndex(str1: string, str2: string): number {
 		const matchingIndex = str1.indexOf(str2.slice(0, i));
 		if (matchingIndex === -1) {
 			const str1tail = str1.slice(str1.length - (i - 1), str1.length);
-			// console.log("##", str1tail);
 			const str2head = str2.slice(0, i - 1);
-			// console.log("##", str2head);
 			if (str1tail === str2head) {
 				return i - 1 < 0 ? 0 : i - 1;
 			} else {
@@ -39,20 +37,11 @@ function removeCodeBlock(str: string): string {
 
 
 const ollama = new Ollama({
-	// host: "https://ollama.jlandowner.dev",
 	host: "http://localhost:11434",
 });
 
 for (const model of models) {
 	console.log("*---", model, "---*");
-	// const res1 = await ollama.pull({
-	// 	model: model,
-	// 	stream: true,
-	// });
-	// for await (const part of res1) {
-	// 	console.log(part.status);
-	// }
-	
 	const res2 = await ollama.generate({
 		model: model,
 		prompt: "const add = (a, b: number) => a + b;\n\nconst sub ",
