@@ -6,7 +6,7 @@ Ollama-optimized AI coding assistant for All VSCode-compatible editors
 - **Chat**: General chat view in side panel.
 - **Explain/Fix/Generate**: Use workspace context in conversations, such as Files, Editors and Terminals.
 - **Code Completion**: Auto Code completion. Just press `tab` and `tab`.
-- **Full support for Ollama API**: Pulling a new model, customizing request parameters, caching a model on the server memory and so on.
+- **Full support for Ollama API**: Pulling a new model, customizing request parameters, caching a model on the server memory and so on. (WIP)
 - **For All VSCode-compatible environments**: Off course for VSCode Desktop but strongly aim for VSCode Server, [coder/code-server](https://github.com/coder/code-server), [gitpod-io/openvscode-server](https://github.com/gitpod-io/openvscode-server) etc.
 
 ## Installation
