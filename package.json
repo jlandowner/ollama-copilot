@@ -1,0 +1,224 @@
+{
+	"name": "ollama-copilot",
+	"displayName": "Ollama Copilot",
+	"description": "Ollama-optimized AI coding assistant for All VSCode-compatible Editors",
+	"version": "0.0.7",
+	"publisher": "jlandowner",
+	"private": true,
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/jlandowner/ollama-copilot"
+	},
+	"engines": {
+		"vscode": "^1.73.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onStartupFinished"
+	],
+	"main": "./out/extension.js",
+	"enabledApiProposals": [
+		"contribSourceControlInputBoxMenu"
+	],
+	"icon": "media/icon.png",
+	"contributes": {
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "ollama-copilot",
+					"title": "Ollama Copilot",
+					"icon": "media/activitybar-icon.svg"
+				}
+			]
+		},
+		"views": {
+			"ollama-copilot": [
+				{
+					"type": "webview",
+					"id": "ollama-copilot.chat",
+					"name": "chat"
+				}
+			]
+		},
+		"menus": {
+			"scm/inputBox": [
+				{
+					"command": "ollama-copilot.generateCommitMessage",
+					"when": "scmProvider == git"
+				}
+			],
+			"view/title": [
+				{
+					"command": "ollama-copilot.history",
+					"when": "view == ollama-copilot.chat",
+					"group": "navigation"
+				},
+				{
+					"command": "ollama-copilot.newChat",
+					"when": "view == ollama-copilot.chat",
+					"group": "navigation"
+				},
+				{
+					"command": "ollama-copilot.setting",
+					"when": "view == ollama-copilot.chat",
+					"group": "navigation"
+				}
+			]
+		},
+		"commands": [
+			{
+				"command": "ollama-copilot.generateCommitMessage",
+				"title": "Ollama Copilot: Generate commit message",
+				"icon": "$(sparkle)"
+			},
+			{
+				"command": "ollama-copilot.history",
+				"title": "Ollama Copilot: History",
+				"icon": "$(history)"
+			},
+			{
+				"command": "ollama-copilot.newChat",
+				"title": "Ollama Copilot: New Chat",
+				"icon": "$(gist-new)"
+			},
+			{
+				"command": "ollama-copilot.setting",
+				"title": "Ollama Copilot: Setting",
+				"icon": "$(settings-gear)"
+			},
+			{
+				"command": "ollama-copilot.pullModel",
+				"title": "Ollama Copilot: Pull Model"
+			},
+			{
+				"command": "ollama-copilot.selectChatModel",
+				"title": "Ollama Copilot: Select Chat Model"
+			},
+			{
+				"command": "ollama-copilot.selectCodeCompletionModel",
+				"title": "Ollama Copilot: Select Code Completion Model"
+			},
+			{
+				"command": "ollama-copilot.clearCompletionCache",
+				"title": "Ollama Copilot: Clear Completion Cache"
+			},
+			{
+				"command": "ollama-copilot.addAttachment",
+				"title": "Ollama Copilot: Add Attachment"
+			}
+		],
+		"configuration": [
+			{
+				"id": "ollama-copilot",
+				"title": "Ollama Copilot",
+				"properties": {
+					"ollama-copilot.URL": {
+						"type": "string",
+						"default": "http://localhost:11434",
+						"description": "URL for the Ollama server",
+						"order": 0
+					},
+					"ollama-copilot.chat.model": {
+						"type": "string",
+						"markdownDescription": "Model name for chat. https://ollama.com/library",
+						"order": 1
+					},
+					"ollama-copilot.chat.systemPrompt": {
+						"type": "string",
+						"default": "You are a helpful, respectful and honest coding assistant. Always reply using markdown. Be clear and concise, prioritizing brevity in your responses. For code refactoring, use markdown with appropriate code formatting.",
+						"order": 2
+					},
+					"ollama-copilot.chat.initialMessage": {
+						"type": "string",
+						"default": "Hello! How can I assist you today?",
+						"order": 3
+					},
+					"ollama-copilot.chat.autoApproval": {
+						"type": "boolean",
+						"default": false,
+						"description": "Enable auto approval for command execution in terminal",
+						"order": 4
+					},
+					"ollama-copilot.chat.ollamaOptions": {
+						"type": "object",
+						"properties": {
+							"num_ctx": {
+								"type": "number",
+								"default": 4096
+							}
+						},
+						"order": 5
+					},
+					"ollama-copilot.codeCompletion.enable": {
+						"type": "boolean",
+						"default": false,
+						"description": "Enable/Disable code completion",
+						"order": 6
+					},
+					"ollama-copilot.codeCompletion.model": {
+						"type": "string",
+						"markdownDescription": "Model name for code completion. https://ollama.com/library",
+						"order": 7
+					},
+					"ollama-copilot.codeCompletion.filePattern": {
+						"type": "string",
+						"default": "**",
+						"description": "A file glob pattern like `*.{ts,js}` that code completion will be enabled. ** means all files.",
+						"order": 8
+					},
+					"ollama-copilot.codeCompletion.typingDebounceDelayMillisecondsForAPICall": {
+						"type": "number",
+						"default": 300,
+						"order": 9
+					},
+					"ollama-copilot.apiRequestConcurrency": {
+						"type": "number",
+						"default": 5,
+						"order": 10
+					}
+				}
+			}
+		]
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "node esbuild.mjs",
+		"lint": "eslint \"src/**/*.ts\"",
+		"watch": "node esbuild.mjs --watch",
+		"setup-codicons": "git clone https://github.com/microsoft/vscode-codicons; cd vscode-codicons; npm i; npm run build; cp dist/codicon.* ../node_modules/@vscode/codicons/dist/; npm prune",
+		"build": "vsce package -o out",
+		"test": "vitest"
+	},
+	"devDependencies": {
+		"@types/node": "^18",
+		"@types/react": "^18.3.5",
+		"@types/react-dom": "^18.3.0",
+		"@types/react-syntax-highlighter": "^15.5.13",
+		"@types/vscode": "^1.73.0",
+		"@types/vscode-webview": "^1.57.5",
+		"@typescript-eslint/eslint-plugin": "^7.14.0",
+		"@typescript-eslint/parser": "^7.14.0",
+		"@vscode/vsce": "^3.2.1",
+		"esbuild": "^0.23.1",
+		"eslint": "^8.26.0",
+		"typescript": "^5.5.2",
+		"vitest": "^2.1.8"
+	},
+	"dependencies": {
+		"@vscode/codicons": "^0.0.36",
+		"highlight.js": "^11.10.0",
+		"ollama": "^0.5.9",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
+		"react-markdown": "^9.0.1",
+		"react-syntax-highlighter": "^15.6.1",
+		"rehype-raw": "^7.0.0",
+		"rehype-sanitize": "^6.0.0",
+		"remark-gfm": "^4.0.0",
+		"zod": "^3.24.1",
+		"zod-to-json-schema": "^3.24.1"
+	}
+}

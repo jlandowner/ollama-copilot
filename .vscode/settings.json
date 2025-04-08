@@ -1,0 +1,4 @@
+{
+	"editor.insertSpaces": false,
+	"ollama-copilot.Chat.Model": "phi4:latest"
+}

@@ -1,0 +1,18 @@
+<task>
+Please complete the rest of the current line of code and return the whole line.
+The code should be a valid code that can be inserted into the current file.
+If the code is already completed, please provide a new line of code.
+</task>
+
+<example>
+<language>go</language>
+<current-line>rootC</current-line>
+<expected-response>rootCmd.PersistentFlags().StringVar(&o.SnapshotExtension, "snapshot-extension", ".yaml", "file extension of snapshot files")</expected-response>
+</example>
+
+<input>
+<current-line>const </current-line>
+<language>$typescript</language>
+<file-name>math.ts</file-name>
+<previouse-lines></previouse-lines>
+</input>
