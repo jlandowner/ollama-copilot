@@ -11,7 +11,7 @@ Ollama-optimized AI coding assistant for All VSCode-compatible editors
 
 ## Installation
 
-### Install via Marketplace
+### Install via Marketplace (TODO: not yet)
 
 - [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/)
 - [Open VSX](https://open-vsx.org/).
